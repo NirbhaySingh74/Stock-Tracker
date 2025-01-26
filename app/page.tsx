@@ -14,23 +14,23 @@ export default function Home() {
 
   const fetchStocks = async () => {
     try {
-      const response = await fetch("/api/stocks")
-      if (!response.ok) throw new Error("Failed to fetch stock data")
-      
-      const data: StockData = await response.json()
-      setStockData(data)
-      // console.log("data - ",data);
-      
-    } catch (error) {
+      const response = await fetch("/api/stocks");
+      if (!response.ok) throw new Error("Failed to fetch stock data");
+  
+      const data: StockData = await response.json();
+      setStockData(data);
+      // console.log("data - ", data);
+    } catch {
       toast({
         title: "Error",
         description: "Failed to fetch stock data. Please try again later.",
         variant: "destructive",
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
+  
 
   useEffect(() => {
     fetchStocks()
