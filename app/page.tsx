@@ -71,9 +71,9 @@ export default function Home() {
     return () => clearInterval(interval)
   }, [fetchStocks])
 
-  const handleManualRefresh = () => {
-    fetchStocks(true)
-  }
+  // const handleManualRefresh = () => {
+  //   fetchStocks(true)
+  // }
 
   const handleSelectStock = (stock: Stock, isSelected: boolean) => {
     setSelectedStocks((prev) =>
