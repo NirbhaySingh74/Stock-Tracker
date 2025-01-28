@@ -9,4 +9,8 @@ export interface Stock {
 export interface StockData {
   topGainers: Stock[]
   topLosers: Stock[]
+  timestamp: string
+  fromCache?: boolean
+  stale?: boolean
 }
+

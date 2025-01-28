@@ -4,15 +4,18 @@ import { useState, useMemo } from "react"
 import type { Stock } from "../types/stock"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowUpDown, ArrowUp, ArrowDown, TrendingUp, TrendingDown } from "lucide-react"
 
 interface StockListProps {
   title: string
   stocks: Stock[]
   type: "mover" | "loser"
+  onSelectStock: (stock: Stock, isSelected: boolean) => void
+  selectedStocks: Stock[]
 }
 
-export default function StockList({ title, stocks = [], type }: StockListProps) {
+export default function StockList({ title, stocks = [], type, onSelectStock, selectedStocks }: StockListProps) {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
 
   const sortedStocks = useMemo(() => {
@@ -24,9 +27,8 @@ export default function StockList({ title, stocks = [], type }: StockListProps) 
   }, [stocks, sortOrder])
 
   const toggleSortOrder = () => {
-    setSortOrder(prevOrder => prevOrder === "asc" ? "desc" : "asc")
+    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"))
   }
-console.log("stocks", stocks);
 
   return (
     <Card className="bg-[#1C1C1C] border-[#2A2A2A]">
@@ -56,11 +58,18 @@ console.log("stocks", stocks);
           {sortedStocks.map((stock) => (
             <li
               key={stock.symbol}
-              className="flex justify-between items-center p-3 bg-[#242424] rounded-lg border border-[#2A2A2A] transition-transform hover:scale-[1.02] cursor-pointer"
+              className="flex justify-between items-center p-3 bg-[#242424] rounded-lg border border-[#2A2A2A] transition-transform hover:scale-[1.02]"
             >
-              <div>
-                <p className="font-semibold text-white">{stock.symbol}</p>
-                <p className="text-sm text-gray-400">{stock.name}</p>
+              <div className="flex items-center space-x-3">
+                <Checkbox
+                  id={`checkbox-${stock.symbol}`}
+                  checked={selectedStocks.some((s) => s.symbol === stock.symbol)}
+                  onCheckedChange={(checked) => onSelectStock(stock, checked as boolean)}
+                />
+                <div>
+                  <p className="font-semibold text-white">{stock.symbol}</p>
+                  <p className="text-sm text-gray-400">{stock.name}</p>
+                </div>
               </div>
               <div className="text-right">
                 <p className="font-semibold text-white">₹{stock.price.toFixed(2)}</p>
@@ -84,3 +93,4 @@ console.log("stocks", stocks);
     </Card>
   )
 }
+
