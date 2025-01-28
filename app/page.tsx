@@ -47,7 +47,7 @@ export default function Home() {
           toast({
             title: "Using stale data",
             description: "Showing last available data. Will update soon.",
-            variant: "warning",
+            variant: "default",
           })
         }
       } catch (err) {
@@ -71,9 +71,9 @@ export default function Home() {
     return () => clearInterval(interval)
   }, [fetchStocks])
 
-  // const handleManualRefresh = () => {
-  //   fetchStocks(true)
-  // }
+  const handleManualRefresh = () => {
+    fetchStocks(true)
+  }
 
   const handleSelectStock = (stock: Stock, isSelected: boolean) => {
     setSelectedStocks((prev) =>
@@ -88,7 +88,7 @@ export default function Home() {
       toast({
         title: "Select two stocks",
         description: "Please select exactly two stocks to compare.",
-        variant: "warning",
+        variant: "default",
       })
     }
   }
@@ -107,14 +107,14 @@ export default function Home() {
               {stockData && (
                 <p className="text-sm text-gray-400">Last updated: {new Date(stockData.timestamp).toLocaleString()}</p>
               )}
-              {/* <Button
+              <Button
                 onClick={handleManualRefresh}
                 variant="outline"
                 size="sm"
                 disabled={loading || Date.now() - lastFetchRef.current < MIN_FETCH_INTERVAL}
               >
                 Refresh
-              </Button> */}
+              </Button>
             </div>
           </div>
 
